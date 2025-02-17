@@ -15,6 +15,7 @@ const Settings: LayoutSettings & {
   title: 'Aip User Center',
   pwa: false,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  // logo: '../public/logo1.svg',
   iconfontUrl: '',
 };
 
