@@ -7,6 +7,7 @@ import type {RunTimeLayoutConfig} from 'umi';
 import {history, Link} from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import {currentUser as queryCurrentUser} from './services/ant-design-pro/api';
+import {RequestConfig} from "@@/plugin-request/request";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -18,10 +19,10 @@ export const initialStateConfig = {
   loading: <PageLoading />,
 };
 
-// export const request: RequestConfig ={
-//   // prefix: '/api',
-//   timeout: 5000,
-// }
+export const request: RequestConfig ={
+  // prefix: '/api',
+  timeout: 1000000,
+}
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -40,20 +41,22 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果不是白名单页面，执行
-  if (!WHITE_LIST.includes(history.location.pathname)) {
+  // 如果是白名单页面，执行
+  if (WHITE_LIST.includes(history.location.pathname)) {
+    return {
+      // @ts-ignore
+      fetchUserInfo,
+      settings: defaultSettings,
+    };
+  }
     const currentUser = await fetchUserInfo();
     return {
+      // @ts-ignore
       fetchUserInfo,
       currentUser,
       settings: defaultSettings,
     };
   }
-  return {
-    fetchUserInfo,
-    settings: defaultSettings,
-  };
-}
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
@@ -61,7 +64,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.username,
+      content: initialState?.currentUser?.userAccount,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {

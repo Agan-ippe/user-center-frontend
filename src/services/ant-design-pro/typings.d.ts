@@ -2,13 +2,22 @@
 /* eslint-disable */
 
 declare namespace API {
+  type BaseResponse<T> = {
+    code?: number;
+    data?: T;
+    message?: string;
+    description?: string;
+  }
+
   type CurrentUser = {
-    id: number;
+    id?: number;
     username?: string;
-    userAccount: string;
+    userAccount?: string;
     avatarUrl?: string;
     gender?: number;
     phone?: string;
+    city?: string;
+    tags?: Array<string>;
     userStatus?: number;
     createTime?: Date;
     userRole?: number;
@@ -20,9 +29,7 @@ declare namespace API {
     currentAuthority?: string;
   };
 
-  type RegisterResult = {
-    userId? :number;
-  }
+  type RegisterResult = number;
 
   type PageParams = {
     current?: number;

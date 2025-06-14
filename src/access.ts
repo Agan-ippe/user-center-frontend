@@ -4,6 +4,8 @@
 export default function access(initialState: { currentUser?: API.CurrentUser } | undefined) {
   const { currentUser } = initialState ?? {};
   return {
-    canAdmin: currentUser && currentUser.access === 'admin',
+    canAdmin: currentUser && currentUser.userRole === 1,
+    // TODO 暂时将此设置为 ture，开发完记得修改。
+    // canAdmin: true,
   };
 }
